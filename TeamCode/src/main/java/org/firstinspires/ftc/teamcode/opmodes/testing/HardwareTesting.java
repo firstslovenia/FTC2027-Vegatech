@@ -45,18 +45,22 @@ public class HardwareTesting extends LinearOpMode {
                 case frontLeftMotor:
                     hardware.frontLeftMotor.setPower(power);
                     telemetry.addData("Power", power);
+                    telemetry.addData("Ticks", hardware.frontLeftMotor.getCurrentPosition());
                     break;
                 case frontRightMotor:
                     hardware.frontRightMotor.setPower(power);
                     telemetry.addData("Power", power);
+                    telemetry.addData("Ticks", hardware.frontRightMotor.getCurrentPosition());
                     break;
                 case backLeftMotor:
                     hardware.backLeftMotor.setPower(power);
                     telemetry.addData("Power", power);
+                    telemetry.addData("Ticks", hardware.backLeftMotor.getCurrentPosition());
                     break;
                 case backRightMotor:
                     hardware.backRightMotor.setPower(power);
                     telemetry.addData("Power", power);
+                    telemetry.addData("Ticks", hardware.backRightMotor.getCurrentPosition());
                     break;
                 case shooterMotor:
                     hardware.shooterMotor.setPower(power);
@@ -66,6 +70,17 @@ public class HardwareTesting extends LinearOpMode {
                 case intakeMotor:
                     hardware.intakeMotor.setPower(power);
                     telemetry.addData("Power", power);
+                    telemetry.addData("Ticks", hardware.intakeMotor.getCurrentPosition());
+                    break;
+                case transferMotor:
+                    hardware.transferMotor.setPower(power);
+                    telemetry.addData("Power", power);
+                    telemetry.addData("Ticks", hardware.transferMotor.getCurrentPosition());
+                    break;
+                case turretMotor:
+                    hardware.turretMotor.setPower(power);
+                    telemetry.addData("Power", power);
+                    telemetry.addData("Ticks", hardware.turretMotor.getCurrentPosition());
                     break;
                 case cameraAngleServo:
 

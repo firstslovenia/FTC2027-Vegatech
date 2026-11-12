@@ -16,13 +16,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.generic.GenericPIDController;
 import org.firstinspires.ftc.teamcode.generic.Util;
 import org.firstinspires.ftc.teamcode.generic.Vector2D;
+import org.firstinspires.ftc.teamcode.pedro.Constants;
 
 public class Drivetrain {
 
 	LinearOpMode callingOpMode;
  	Hardware hardware;
 
-     Follower pedroOdometry;
+    Follower pedroOdometry;
 
 	/// Whether or not to debug values to telemetry
 	public boolean debug = true;
@@ -91,6 +92,7 @@ public class Drivetrain {
 		callingOpMode = opMode;
 		hardware = hw_map;
 		rotation_pid_controller = new GenericPIDController(callingOpMode, 1.0, 0.0, 0.0, 0.1);
+        pedroOdometry = Constants.create(opMode.hardwareMap);
 		resetStartingDirection();
 	}
 

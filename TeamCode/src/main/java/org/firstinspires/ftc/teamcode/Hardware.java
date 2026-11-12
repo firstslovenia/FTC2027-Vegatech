@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -31,10 +32,17 @@ public class Hardware {
 	public static DcMotor backLeftMotor = null;
 	public static DcMotor backRightMotor = null;
 
+    public static DcMotor leftEncoder = null;
+    public static DcMotor rightEncoder = null;
+    public static DcMotor sidewaysEncoder = null;
+
 	public static DcMotor shooterMotor = null;
-	public static Servo cameraAngleServo = null;
 
     public static DcMotor intakeMotor = null;
+    public static DcMotor transferMotor = null;
+    public static DcMotor turretMotor = null;
+	public static Servo cameraAngleServo = null;
+
 	public static IMU imu = null;
 	public static Servo rgbLed = null;
     public static RevColorSensorV3 colorSensor = null;
@@ -64,19 +72,29 @@ public class Hardware {
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        leftEncoder =  backRightMotor;
+        rightEncoder = backLeftMotor;
+        sidewaysEncoder = frontRightMotor;
+
         cameraAngleServo = callingOpMode.hardwareMap.get(Servo.class, "cameraAngleServo");
 
         intakeMotor = callingOpMode.hardwareMap.get(DcMotor.class, "intakeMotor");
         intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-		//imu = callingOpMode.hardwareMap.get(IMU.class, "imu");
-		//imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.DOWN, RevHubOrientationOnRobot.UsbFacingDirection.LEFT)));
+        shooterMotor = callingOpMode.hardwareMap.get(DcMotor.class, "shooterMotor");
+        shooterMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        turretMotor = callingOpMode.hardwareMap.get(DcMotor.class, "turretMotor");
+        turretMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+
+		imu = callingOpMode.hardwareMap.get(IMU.class, "imu");
+		imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.DOWN, RevHubOrientationOnRobot.UsbFacingDirection.LEFT)));
 
 		rgbLed = callingOpMode.hardwareMap.get(Servo.class, "rgbLed");
 
-        // Rely primarily on gobilda, use the camera to set the initial position; autonomous gets us reliable positioning anyway
+        // Rely primarily on odometry, use the camera to set the initial position; autonomous gets us reliable positioning anyway
         // To target stuff use calculated gobilda pos
-		webcam = callingOpMode.hardwareMap.get(WebcamName.class, "webcam");
+		//webcam = callingOpMode.hardwareMap.get(WebcamName.class, "webcam");
 
         colorSensor = callingOpMode.hardwareMap.get(RevColorSensorV3.class, "colorSensor");
 	}

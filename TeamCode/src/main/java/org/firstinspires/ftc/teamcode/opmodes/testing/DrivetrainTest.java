@@ -4,6 +4,9 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.*;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Drivetrain;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.generic.Vector2D;
@@ -20,13 +23,14 @@ public class DrivetrainTest extends LinearOpMode {
 		hardware = new Hardware(this);
 		hardware.init();
 
-		drivetrain = new Drivetrain(this, hardware);
-		drivetrain.fieldCentricTranslation = true;
-		drivetrain.fieldCentricRotation = true;
-		drivetrain.keepHeading = true;
-
 		waitForStart();
-		drivetrain.resetStartingDirection();
+
+        drivetrain = new Drivetrain(this, hardware);
+        drivetrain.fieldCentricTranslation = true;
+        drivetrain.fieldCentricRotation = true;
+        drivetrain.setPos(new Pose2D(DistanceUnit.METER, 0.0, 0.0, AngleUnit.RADIANS,0.0));
+        drivetrain.resetStartingDirection();
+        drivetrain.keepHeading = true;
 
 		while (opModeIsActive()) {
 

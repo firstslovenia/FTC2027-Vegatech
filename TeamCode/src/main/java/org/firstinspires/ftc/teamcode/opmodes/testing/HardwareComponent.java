@@ -8,14 +8,14 @@ public enum HardwareComponent {
     odometry,
     shooterMotor,
     intakeMotor,
-    spindexerMotor,
-    Spindexer,
+    transferMotor,
+    turretMotor,
+    turret,
     shooterAngleServo,
     rgbLed,
     colorSensor,
     // Giblje med tko 0.3 in 1.0
-    cameraAngleServo,
-    lifterServo;
+    cameraAngleServo;
 
     private static final HardwareComponent[] values = values();
 
