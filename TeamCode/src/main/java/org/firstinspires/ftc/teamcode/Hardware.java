@@ -36,6 +36,8 @@ public class Hardware {
     public static DcMotor rightEncoder = null;
     public static DcMotor sidewaysEncoder = null;
 
+    public static Servo plowServo = null;
+
 	public static DcMotor shooterMotor = null;
 
     public static DcMotor intakeMotor = null;
@@ -75,6 +77,8 @@ public class Hardware {
         leftEncoder =  backRightMotor;
         rightEncoder = backLeftMotor;
         sidewaysEncoder = frontRightMotor;
+
+        plowServo = callingOpMode.hardwareMap.get(Servo.class, "plowServo");
 
         intakeMotor = callingOpMode.hardwareMap.get(DcMotor.class, "intakeMotor");
         intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);

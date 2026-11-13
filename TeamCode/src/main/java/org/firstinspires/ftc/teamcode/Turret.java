@@ -87,7 +87,8 @@ public class Turret {
             double absolute_angle_rads = target_pos_info.ideal_angle_to_target;
 
             // Our heading is +90, where as our actual field rotation is 0
-            double current_angle = current_pos.getHeading(AngleUnit.RADIANS) - Math.PI / 2.0;
+            //double current_angle = current_pos.getHeading(AngleUnit.RADIANS) - Math.PI / 2.0;
+            double current_angle = drivetrain.wanted_heading - Math.PI / 2.0 - drivetrain.local_heading_offset;
 
             double local_angle_rads = absolute_angle_rads - current_angle;
             move_to_angle(local_angle_rads);
