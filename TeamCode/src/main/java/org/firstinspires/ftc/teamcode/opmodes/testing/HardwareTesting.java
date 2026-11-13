@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.testing;
 
+import android.util.Pair;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,8 +11,10 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.teamcode.Drivetrain;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.ShooterPlusPlus;
+import org.firstinspires.ftc.teamcode.Turret;
 import org.firstinspires.ftc.teamcode.generic.LedIndicator;
 
 @TeleOp(name = "Hardware Testing", group = "Testing")
@@ -18,6 +22,7 @@ public class HardwareTesting extends LinearOpMode {
 
     Hardware hardware;
 
+    Turret turret;
     HardwareComponent component = HardwareComponent.frontLeftMotor;
 
     @Override
@@ -25,6 +30,9 @@ public class HardwareTesting extends LinearOpMode {
 
         hardware = new Hardware(this);
         hardware.init();
+
+        turret = new Turret(this, hardware);
+        turret.init();
 
         waitForStart();
 
@@ -78,10 +86,22 @@ public class HardwareTesting extends LinearOpMode {
                     telemetry.addData("Ticks", hardware.transferMotor.getCurrentPosition());
                     break;
                 case turretMotor:
+                    hardware.turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     hardware.turretMotor.setPower(power);
                     telemetry.addData("Power", power);
                     telemetry.addData("Ticks", hardware.turretMotor.getCurrentPosition());
                     break;
+                case turret:
+                    android.util.Pair<Double, Double> mag_phi = Drivetrain.getMagnitudeAndPhiFor(gamepad1.right_stick_x, -gamepad1.right_stick_y);
+
+                    double magnitude = mag_phi.first;
+                    double phi = mag_phi.second;
+
+                    if (magnitude >= 0.5) {
+                        turret.move_to_angle(phi);
+                    }
+
+                   turret.update();
                 case cameraAngleServo:
 
                     double servo_pos = hardware.cameraAngleServo.getPosition();

@@ -85,7 +85,8 @@ public class Hardware {
         shooterMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         turretMotor = callingOpMode.hardwareMap.get(DcMotor.class, "turretMotor");
-        turretMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        // Will be set manually in turret init
 
 		imu = callingOpMode.hardwareMap.get(IMU.class, "imu");
 		imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.DOWN, RevHubOrientationOnRobot.UsbFacingDirection.LEFT)));

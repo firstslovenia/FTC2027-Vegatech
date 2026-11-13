@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Drivetrain;
 import org.firstinspires.ftc.teamcode.Hardware;
+import org.firstinspires.ftc.teamcode.NVPosition;
 import org.firstinspires.ftc.teamcode.ShooterPlusPlus;
 import org.firstinspires.ftc.teamcode.ShooterPositioning;
 import org.firstinspires.ftc.teamcode.generic.LedIndicator;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.teamcode.TargetInformation;
 import org.firstinspires.ftc.teamcode.Webcam;
 import org.firstinspires.ftc.teamcode.generic.SlidingWindow;
 import org.firstinspires.ftc.teamcode.generic.Team;
+import org.firstinspires.ftc.teamcode.generic.Util;
 import org.firstinspires.ftc.teamcode.generic.Vector2D;
 
 @Disabled
@@ -73,6 +75,20 @@ public class Main extends LinearOpMode {
 		hardware = new Hardware(this);
 		hardware.init();
 
+        // Load saved non-volatile position
+        NVPosition pos = NVPosition.load();
+
+        if (pos != null) {
+            long now = System.currentTimeMillis();
+
+            long since_save_ms = now - pos.saved_at;
+            long one_hour_ms = 60 * 60 * 1000;
+
+            if (since_save_ms >= 0 && since_save_ms <= one_hour_ms) {
+                starting_pos = Util.to_pose2d(pos.pos);
+            }
+        }
+
 		drivetrain = new Drivetrain(this, hardware);
 		drivetrain.fieldCentricTranslation = true;
 		drivetrain.fieldCentricRotation = true;
@@ -85,12 +101,8 @@ public class Main extends LinearOpMode {
 
 		waitForStart();
 
-        // Set starting position if we didn't already keep one from before
-        // TODO: aaaaaaaaaaaaaa
-        //if (hardware.is_odometry_starting_pos_unset()) {
-        //    drivetrain.setPos(starting_pos);
-        //}
         drivetrain.resetStartingDirection();
+        drivetrain.setPos(starting_pos);
 
         hardware.cameraAngleServo.setPosition(LOWER_CAMERA_POSITION);
 
