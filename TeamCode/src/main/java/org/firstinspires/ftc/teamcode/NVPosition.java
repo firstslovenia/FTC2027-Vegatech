@@ -24,16 +24,17 @@ public class NVPosition extends NVRAM {
 
     @Override
     public void save() {
+        try {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("s_at", saved_at);
+            map.put("x", pos.getX());
+            map.put("y", pos.getY());
+            map.put("h", pos.getHeading());
 
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("s_at", saved_at);
-        map.put("x", pos.getX());
-        map.put("y", pos.getY());
-        map.put("h", pos.getHeading());
+            JSONObject j = new JSONObject();
 
-        JSONObject j = new JSONObject();
-
-        save_json(j);
+            save_json(j);
+        } catch (Exception e) {}
     }
 
     public static NVPosition load() {

@@ -16,21 +16,29 @@ public class NVRAM {
     static String filename;
 
     static void save_string(String s) {
-        File myFileName = AppUtil.getInstance().getSettingsFile(filename);
-        ReadWriteFile.writeFile(myFileName, s);
+        try {
+            File myFileName = AppUtil.getInstance().getSettingsFile(filename);
+            ReadWriteFile.writeFile(myFileName, s);
+        } catch (Exception e) {}
     }
 
     static String load_string() {
-        File myFileName = AppUtil.getInstance().getSettingsFile(filename);
-        return ReadWriteFile.readFile(myFileName);
+        try {
+            File myFileName = AppUtil.getInstance().getSettingsFile(filename);
+            return ReadWriteFile.readFile(myFileName);
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     static void delete_string() {
-        File myFileName = AppUtil.getInstance().getSettingsFile(filename);
+        try {
+            File myFileName = AppUtil.getInstance().getSettingsFile(filename);
 
-        if (myFileName != null) {
-            myFileName.delete();
-        }
+            if (myFileName != null) {
+                myFileName.delete();
+            }
+        } catch (Exception e) {}
     }
 
     static void save_json(JSONObject json) {
@@ -41,8 +49,7 @@ public class NVRAM {
        try {
            String str = load_string();
            return new JSONObject(str);
-       } catch (JSONException e) {
-
+       } catch (Exception e) {
            return null;
        }
     }
