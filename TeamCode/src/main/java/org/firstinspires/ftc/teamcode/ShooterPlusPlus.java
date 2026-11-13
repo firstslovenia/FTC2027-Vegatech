@@ -60,7 +60,6 @@ public class ShooterPlusPlus {
     long started_running_time_ms = 0;
     OpMode callingOpMode;
     Hardware hardware;
-    Webcam webcam;
 
     ///  What distance we are regulating for
     public double shooting_distance_m = Double.NaN;
@@ -99,12 +98,6 @@ public class ShooterPlusPlus {
         this.callingOpMode = callingOpMode;
 
         hardware.shooterMotor.setPower(0.0);
-    }
-
-    public ShooterPlusPlus(OpMode callingOpMode, Hardware hardware, Webcam webcam) {
-        this(callingOpMode, hardware);
-
-        this.webcam = webcam;
     }
 
     /// Calculates the expected RPM from the motor's power and voltage
@@ -198,17 +191,17 @@ public class ShooterPlusPlus {
 
     /// Updates the shooter's parameters (RPM, angle) for shooting at a target
     public void update_for_target(TargetInformation target) {
-        update_for_distance(target.distance_m);
+        update_for_distance();
     }
 
     /// Updates the shooter's parameters (RPM, angle) for shooting at a specific distance
-    public void update_for_distance(double distance_m) {
-
+    //public void update_for_distance(double distance_m) {
+    public void update_for_distance() {
         /*wanted_flywheel_rpm = distance_cm_to_wanted_rpm(distance_m * 100.0);
         flywheel_gain = calculate_power_for_rpm(wanted_flywheel_rpm, callingOpMode.hardwareMap.voltageSensor.iterator().next().getVoltage());*/
 
         flywheel_gain = 10.0;
-        shooting_distance_m = distance_m;
+        //shooting_distance_m = distance_m;
     }
 
     /*

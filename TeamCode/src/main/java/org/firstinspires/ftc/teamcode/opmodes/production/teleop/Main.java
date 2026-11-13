@@ -72,6 +72,8 @@ public class Main extends LinearOpMode {
         turret = new Turret(this, drivetrain, hardware);
         turret.init();
 
+        shooter = new ShooterPlusPlus(this, hardware);
+
 		ledIndicator = new LedIndicator(this, hardware);
 		led_position_to_set = LedIndicator.OFF_POSITION;
 
@@ -79,10 +81,8 @@ public class Main extends LinearOpMode {
 
         hardware.plowServo.setPosition(1.0);
 
-        drivetrain.resetStartingDirection();
         drivetrain.setPos(starting_pos);
-
-        hardware.cameraAngleServo.setPosition(LOWER_CAMERA_POSITION);
+        drivetrain.resetStartingDirection();
 
 		while (opModeIsActive()) {
 
@@ -126,6 +126,8 @@ public class Main extends LinearOpMode {
             if (Math.abs(gamepad1.right_trigger) > 0.2) {
                 hardware.transferMotor.setPower(1.0);
                 hardware.intakeMotor.setPower(0.75);
+            } else {
+                hardware.transferMotor.setPower(0.0);
             }
 
             // Enable / disable the shooter
@@ -138,6 +140,7 @@ public class Main extends LinearOpMode {
 			}
 
             shooter.update();
+            turret.update();
 
             if (shooter.flywheel_enabled) {
                 telemetry.addLine("Shooter ON");

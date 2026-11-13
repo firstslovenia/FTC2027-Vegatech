@@ -56,7 +56,7 @@ public class GenericJustMoveAuto extends OpMode {
 
         move = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, true_end_pose))
-                .setLinearHeadingInterpolation(startPose.getHeading(), endPose.getHeading())
+                .setLinearHeadingInterpolation(startPose.getHeading(), true_end_pose.getHeading())
                 .build();
     }
 

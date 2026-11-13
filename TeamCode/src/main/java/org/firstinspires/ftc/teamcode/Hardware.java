@@ -43,8 +43,6 @@ public class Hardware {
     public static DcMotor intakeMotor = null;
     public static DcMotor transferMotor = null;
     public static DcMotor turretMotor = null;
-	public static Servo cameraAngleServo = null;
-
 	public static IMU imu = null;
 	public static Servo rgbLed = null;
     public static RevColorSensorV3 colorSensor = null;

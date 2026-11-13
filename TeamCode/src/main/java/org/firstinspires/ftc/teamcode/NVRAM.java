@@ -13,7 +13,7 @@ import java.util.Objects;
 
 /// Provides non-volatile storage of data between opmodes
 public class NVRAM {
-    static String filename;
+    static String filename = "saved_pos.txt";
 
     static void save_string(String s) {
         try {

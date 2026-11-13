@@ -9,6 +9,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Drivetrain;
 import org.firstinspires.ftc.teamcode.Hardware;
+import org.firstinspires.ftc.teamcode.NVPosition;
+import org.firstinspires.ftc.teamcode.generic.Util;
 import org.firstinspires.ftc.teamcode.generic.Vector2D;
 
 @TeleOp(name = "Drivetrain Test", group = "Testing")
@@ -27,10 +29,23 @@ public class DrivetrainTest extends LinearOpMode {
         drivetrain.fieldCentricTranslation = true;
         drivetrain.fieldCentricRotation = true;
         drivetrain.setPos(new Pose2D(DistanceUnit.METER, 0.0, 0.0, AngleUnit.RADIANS,0.0));
-        drivetrain.resetStartingDirection();
         drivetrain.keepHeading = true;
 
+        Pose2D starting_pos = null;
+
+        // Load saved non-volatile position
+        NVPosition pos = NVPosition.load();
+
+        if (pos != null) {
+            starting_pos = Util.to_pose2d(pos.pos);
+        }
+
 		waitForStart();
+
+        if (starting_pos != null) {
+            drivetrain.setPos(starting_pos);
+            drivetrain.resetStartingDirection();
+        }
 
 		while (opModeIsActive()) {
 
@@ -68,6 +83,9 @@ public class DrivetrainTest extends LinearOpMode {
 
 			drivetrain.update(translation_vector, rotation_vector);
 
+            if (starting_pos != null) {
+                telemetry.addLine("starting ni null");
+            }
 			telemetry.update();
 		}
 	}
