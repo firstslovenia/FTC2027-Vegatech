@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.generic;
 
-import com.pedropathing.math.Pose;
+import com.pedropathing.geometry.Pose;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 public class Util {
     /// Converts a pedro pathing pose to a pose2d
     public static Pose2D to_pose2d(Pose pedro_pos) {
-        return new Pose2D(DistanceUnit.INCH, pedro_pos.x(), pedro_pos.y(), AngleUnit.RADIANS, pedro_pos.heading());
+        return new Pose2D(DistanceUnit.INCH, pedro_pos.getX(), pedro_pos.getY(), AngleUnit.RADIANS, pedro_pos.getHeading());
     }
 
     /// Converts a pedro pathing pose to a pose2d

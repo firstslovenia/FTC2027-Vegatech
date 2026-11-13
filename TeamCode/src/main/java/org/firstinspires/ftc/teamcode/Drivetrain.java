@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import android.util.Pair;
 
 import com.pedropathing.follower.Follower;
-import com.pedropathing.math.Pose;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -16,7 +16,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.generic.GenericPIDController;
 import org.firstinspires.ftc.teamcode.generic.Util;
 import org.firstinspires.ftc.teamcode.generic.Vector2D;
-import org.firstinspires.ftc.teamcode.pedro.Constants;
 
 public class Drivetrain {
 
@@ -92,7 +91,8 @@ public class Drivetrain {
 		callingOpMode = opMode;
 		hardware = hw_map;
 		rotation_pid_controller = new GenericPIDController(callingOpMode, 1.0, 0.0, 0.0, 0.1);
-        pedroOdometry = Constants.create(opMode.hardwareMap);
+        pedroOdometry = Constants.createFollower(opMode.hardwareMap);
+        resetEncoders();
 		resetStartingDirection();
 	}
 
@@ -113,7 +113,7 @@ public class Drivetrain {
 
 	/// Sets the starting direction to the current direction
 	public void resetStartingDirection() {
-        last_robot_position = Util.to_pose2d(pedroOdometry.pose());
+        last_robot_position = Util.to_pose2d(pedroOdometry.getPose());
 		wanted_heading = Math.PI / 2.0;
 
         // No, we can't do this in hardware....
@@ -127,6 +127,18 @@ public class Drivetrain {
             }
         }
 	}
+
+    public void resetEncoders() {
+        hardware.leftEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        hardware.rightEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        hardware.sidewaysEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    public void reenableEncoders() {
+        hardware.leftEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        hardware.rightEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        hardware.sidewaysEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
 
     /// Sets the current position from an external sensor
     ///
@@ -260,7 +272,7 @@ public class Drivetrain {
 
         if (set_new_pos_at != 0) {
 
-            Pose2D new_pos = Util.to_pose2d(pedroOdometry.pose());
+            Pose2D new_pos = Util.to_pose2d(pedroOdometry.getPose());
 
             if (now_ms - set_new_pos_at > 500) {
                 // fuck me I guess, my fault for wanting to make a robot that works
@@ -277,7 +289,15 @@ public class Drivetrain {
             return;
         }
 
-        last_robot_position = Util.to_pose2d(pedroOdometry.pose());
+        // Reenable motors if they are disabled
+        DcMotor motors[] = new DcMotor[] {hardware.frontLeftMotor, hardware.frontRightMotor, hardware.backLeftMotor, hardware.backLeftMotor};
+        for (DcMotor motor : motors) {
+            if (motor.getMode() != DcMotor.RunMode.RUN_USING_ENCODER) {
+                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+        }
+
+        last_robot_position = Util.to_pose2d(pedroOdometry.getPose());
 
 		double heading_difference_from_start = getHeadingDifferenceFromStart(last_robot_position);
 
@@ -480,6 +500,7 @@ public class Drivetrain {
 			//callingOpMode.telemetry.addData("breaking?             ", hardware.frontLeftMotor.getZeroPowerBehavior() == DcMotor.ZeroPowerBehavior.BRAKE);
 			//callingOpMode.telemetry.addData("translation power     ", translation_power);
 			callingOpMode.telemetry.addData("Orientation [deg]", Math.toDegrees(getCurrentHeading()));
+            callingOpMode.telemetry.addData("Absolute heading [deg]", last_robot_position.getHeading(AngleUnit.DEGREES));
 			//callingOpMode.telemetry.addData("orientation (rads)    ", getCurrentHeading());
             callingOpMode.telemetry.addData("X Position    [m]", last_robot_position.getX(DistanceUnit.METER));
             callingOpMode.telemetry.addData("Y Position    [m]", last_robot_position.getY(DistanceUnit.METER));

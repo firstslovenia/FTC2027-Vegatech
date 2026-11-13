@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes.production.teleop;
-import com.pedropathing.math.Pose;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.ShooterPositioning;

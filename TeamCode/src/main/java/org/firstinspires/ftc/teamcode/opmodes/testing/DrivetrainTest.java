@@ -23,14 +23,16 @@ public class DrivetrainTest extends LinearOpMode {
 		hardware = new Hardware(this);
 		hardware.init();
 
-		waitForStart();
-
         drivetrain = new Drivetrain(this, hardware);
         drivetrain.fieldCentricTranslation = true;
         drivetrain.fieldCentricRotation = true;
         drivetrain.setPos(new Pose2D(DistanceUnit.METER, 0.0, 0.0, AngleUnit.RADIANS,0.0));
         drivetrain.resetStartingDirection();
         drivetrain.keepHeading = true;
+
+		waitForStart();
+
+        drivetrain.reenableEncoders();
 
 		while (opModeIsActive()) {
 
