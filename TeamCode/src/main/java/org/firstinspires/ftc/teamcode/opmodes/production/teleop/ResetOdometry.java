@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Hardware;
+import org.firstinspires.ftc.teamcode.NVPosition;
 
 @TeleOp(name = "Reset Odometry", group = "Production")
 public class ResetOdometry extends LinearOpMode {
@@ -25,6 +26,6 @@ public class ResetOdometry extends LinearOpMode {
         hardware.rightEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         hardware.sidewaysEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        // nared magic da clearaš pos
+        NVPosition.clear();
     }
 }

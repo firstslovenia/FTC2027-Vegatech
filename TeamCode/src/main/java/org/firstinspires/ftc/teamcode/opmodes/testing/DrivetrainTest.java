@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Drivetrain;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.generic.Vector2D;
 
-@TeleOp(name = "DrivetrainTest", group = "Testing")
+@TeleOp(name = "Drivetrain Test", group = "Testing")
 public class DrivetrainTest extends LinearOpMode {
 
 	Hardware hardware;

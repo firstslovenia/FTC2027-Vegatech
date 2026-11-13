@@ -2,11 +2,19 @@ package org.firstinspires.ftc.teamcode;
 
 import com.pedropathing.geometry.Pose;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
 /// Saves the robot's position inbetween opmodes
 public class NVPosition extends NVRAM {
 
+    {
+        filename = "saved_pos.txt";
+    }
+
     public NVPosition(Pose p) {
-       filename = "saved_pos.txt";
        saved_at = System.currentTimeMillis();
        pos = p;
     }
@@ -16,35 +24,40 @@ public class NVPosition extends NVRAM {
 
     @Override
     public void save() {
-        StringBuffer str = new StringBuffer();
-        write_long(str, saved_at);
-        write_double(str, pos.getX());
-        write_double(str, pos.getY());
-        write_double(str, pos.getHeading());
-        saved_at = System.currentTimeMillis();
-        save_string(str.toString());
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("s_at", saved_at);
+        map.put("x", pos.getX());
+        map.put("y", pos.getY());
+        map.put("h", pos.getHeading());
+
+        JSONObject j = new JSONObject();
+
+        save_json(j);
     }
 
     public static NVPosition load() {
-        String s = load_string();
+        try {
+            JSONObject j = load_json();
 
-        if (s == null || s.equals("")) {
+            if (j == null) {
+                return null;
+            }
+
+            long s_at = j.getLong("s_at");
+            double x = j.getDouble("x");
+            double y = j.getDouble("y");
+            double h = j.getDouble("h");
+
+            NVPosition pos = new NVPosition(new Pose(x, y, h));
+            pos.saved_at = s_at;
+            return pos;
+        } catch (Exception e) {
             return null;
         }
+    }
 
-        StringBuffer b = new StringBuffer(s);
-
-        Long s_at = read_long(b);
-        Double x = read_double(b);
-        Double y = read_double(b);
-        Double h = read_double(b);
-
-        if (s_at == null || x == null || y == null || h == null) {
-            return null;
-        }
-
-        NVPosition pos = new NVPosition(new Pose(x, y, h));
-        pos.saved_at = s_at;
-        return pos;
+    public static void clear() {
+        delete_string();
     }
 }

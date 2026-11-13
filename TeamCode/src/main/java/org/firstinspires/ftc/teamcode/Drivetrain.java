@@ -8,7 +8,6 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.hardware.ImuOrientationOnRobot;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -22,7 +21,7 @@ public class Drivetrain {
 	LinearOpMode callingOpMode;
  	Hardware hardware;
 
-    Follower pedroOdometry;
+    public Follower odometry;
 
 	/// Whether or not to debug values to telemetry
 	public boolean debug = true;
@@ -91,7 +90,7 @@ public class Drivetrain {
 		callingOpMode = opMode;
 		hardware = hw_map;
 		rotation_pid_controller = new GenericPIDController(callingOpMode, 1.0, 0.0, 0.0, 0.1);
-        pedroOdometry = Constants.createFollower(opMode.hardwareMap);
+        odometry = Constants.createFollower(opMode.hardwareMap);
 		resetStartingDirection();
 	}
 
@@ -112,7 +111,7 @@ public class Drivetrain {
 
 	/// Sets the starting direction to the current direction
 	public void resetStartingDirection() {
-        last_robot_position = Util.to_pose2d(pedroOdometry.getPose());
+        last_robot_position = Util.to_pose2d(odometry.getPose());
 		wanted_heading = Math.PI / 2.0;
 
         // No, we can't do this in hardware....
@@ -131,7 +130,7 @@ public class Drivetrain {
     ///
     /// also updates the odometry
     public void setPos(Pose2D new_pos) {
-       pedroOdometry.setPose(Util.to_pose(new_pos));
+       odometry.setPose(Util.to_pose(new_pos));
 
        local_heading_offset = local_heading_offset - base_heading + new_pos.getHeading(AngleUnit.RADIANS);
 
@@ -246,7 +245,7 @@ public class Drivetrain {
 	public void update(Vector2D translation_stick, Vector2D rotation_stick) {
 
         long now_ms = System.currentTimeMillis();
-        pedroOdometry.update();
+        odometry.update();
 
         if (started_compass_recalibration_ms != 0) {
 
@@ -259,7 +258,7 @@ public class Drivetrain {
 
         if (set_new_pos_at != 0) {
 
-            Pose2D new_pos = Util.to_pose2d(pedroOdometry.getPose());
+            Pose2D new_pos = Util.to_pose2d(odometry.getPose());
 
             if (now_ms - set_new_pos_at > 500) {
                 // fuck me I guess, my fault for wanting to make a robot that works
@@ -276,7 +275,7 @@ public class Drivetrain {
             return;
         }
 
-        last_robot_position = Util.to_pose2d(pedroOdometry.getPose());
+        last_robot_position = Util.to_pose2d(odometry.getPose());
 
 		double heading_difference_from_start = getHeadingDifferenceFromStart(last_robot_position);
 

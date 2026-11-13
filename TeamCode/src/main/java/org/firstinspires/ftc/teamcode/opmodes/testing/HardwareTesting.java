@@ -31,7 +31,7 @@ public class HardwareTesting extends LinearOpMode {
         hardware = new Hardware(this);
         hardware.init();
 
-        turret = new Turret(this, hardware);
+        turret = new Turret(this, null, hardware);
         turret.init();
 
         waitForStart();
@@ -55,42 +55,50 @@ public class HardwareTesting extends LinearOpMode {
                     telemetry.addData("Power", power);
                     telemetry.addData("Ticks", hardware.frontLeftMotor.getCurrentPosition());
                     break;
+
                 case frontRightMotor:
                     hardware.frontRightMotor.setPower(power);
                     telemetry.addData("Power", power);
                     telemetry.addData("Ticks", hardware.frontRightMotor.getCurrentPosition());
                     break;
+
                 case backLeftMotor:
                     hardware.backLeftMotor.setPower(power);
                     telemetry.addData("Power", power);
                     telemetry.addData("Ticks", hardware.backLeftMotor.getCurrentPosition());
                     break;
+
                 case backRightMotor:
                     hardware.backRightMotor.setPower(power);
                     telemetry.addData("Power", power);
                     telemetry.addData("Ticks", hardware.backRightMotor.getCurrentPosition());
                     break;
+
                 case shooterMotor:
                     hardware.shooterMotor.setPower(power);
                     telemetry.addData("Power", power);
                     telemetry.addData("Ticks", hardware.shooterMotor.getCurrentPosition());
                     break;
+
                 case intakeMotor:
                     hardware.intakeMotor.setPower(power);
                     telemetry.addData("Power", power);
                     telemetry.addData("Ticks", hardware.intakeMotor.getCurrentPosition());
                     break;
+
                 case transferMotor:
                     hardware.transferMotor.setPower(power);
                     telemetry.addData("Power", power);
                     telemetry.addData("Ticks", hardware.transferMotor.getCurrentPosition());
                     break;
+
                 case turretMotor:
                     hardware.turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     hardware.turretMotor.setPower(power);
                     telemetry.addData("Power", power);
                     telemetry.addData("Ticks", hardware.turretMotor.getCurrentPosition());
                     break;
+
                 case turret:
                     android.util.Pair<Double, Double> mag_phi = Drivetrain.getMagnitudeAndPhiFor(gamepad1.right_stick_x, -gamepad1.right_stick_y);
 
@@ -102,22 +110,12 @@ public class HardwareTesting extends LinearOpMode {
                     }
 
                    turret.update();
-                case cameraAngleServo:
 
-                    double servo_pos = hardware.cameraAngleServo.getPosition();
-
-                    telemetry.addData("servo position", servo_pos);
-
-                    if (gamepad1.xWasPressed()) {
-                        servo_pos = servo_pos + 0.1;
-                    } else if (gamepad1.yWasPressed()) {
-                        servo_pos = servo_pos - 0.1;
-                    }
-
-                    servo_pos = Math.min(Math.max(0.0, servo_pos), 1.0);
-
-                    hardware.cameraAngleServo.setPosition(servo_pos);
-
+                    telemetry.addData("turret [°]", Math.toDegrees(turret.current_angle()));
+                    telemetry.addData("turret target [°]", Math.toDegrees(turret.target_angle()));
+                    telemetry.addData("loops", Turret.loops(hardware.turretMotor.getCurrentPosition()));
+                    telemetry.addData("ticks", hardware.turretMotor.getCurrentPosition());
+                    telemetry.addData("target ticks", hardware.turretMotor.getTargetPosition());
 
                 case rgbLed:
                     double color = LedIndicator.RED_POSITION + (LedIndicator.VIOLET_POSITION - LedIndicator.RED_POSITION) * ((double)(System.currentTimeMillis() % 10000) / 10000.0);
@@ -125,6 +123,7 @@ public class HardwareTesting extends LinearOpMode {
                     hardware.rgbLed.setPosition(color);
                     telemetry.addData("Position", color);
                     break;
+
                 case colorSensor:
                     NormalizedRGBA output = hardware.colorSensor.getNormalizedColors();
                     double distance = hardware.colorSensor.getDistance(DistanceUnit.CM);

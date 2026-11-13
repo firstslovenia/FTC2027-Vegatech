@@ -76,15 +76,17 @@ public class Hardware {
         rightEncoder = backLeftMotor;
         sidewaysEncoder = frontRightMotor;
 
-        cameraAngleServo = callingOpMode.hardwareMap.get(Servo.class, "cameraAngleServo");
-
         intakeMotor = callingOpMode.hardwareMap.get(DcMotor.class, "intakeMotor");
         intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         shooterMotor = callingOpMode.hardwareMap.get(DcMotor.class, "shooterMotor");
-        shooterMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        shooterMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        transferMotor = callingOpMode.hardwareMap.get(DcMotor.class, "transferMotor");
+        transferMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         turretMotor = callingOpMode.hardwareMap.get(DcMotor.class, "turretMotor");
+        turretMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         // Will be set manually in turret init
 

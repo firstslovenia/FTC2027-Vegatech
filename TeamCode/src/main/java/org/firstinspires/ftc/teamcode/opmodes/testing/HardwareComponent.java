@@ -11,11 +11,8 @@ public enum HardwareComponent {
     transferMotor,
     turretMotor,
     turret,
-    shooterAngleServo,
     rgbLed,
-    colorSensor,
-    // Giblje med tko 0.3 in 1.0
-    cameraAngleServo;
+    colorSensor;
 
     private static final HardwareComponent[] values = values();
 
