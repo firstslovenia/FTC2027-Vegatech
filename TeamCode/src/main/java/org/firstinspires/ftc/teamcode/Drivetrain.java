@@ -92,7 +92,6 @@ public class Drivetrain {
 		hardware = hw_map;
 		rotation_pid_controller = new GenericPIDController(callingOpMode, 1.0, 0.0, 0.0, 0.1);
         pedroOdometry = Constants.createFollower(opMode.hardwareMap);
-        resetEncoders();
 		resetStartingDirection();
 	}
 
@@ -127,18 +126,6 @@ public class Drivetrain {
             }
         }
 	}
-
-    public void resetEncoders() {
-        hardware.leftEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        hardware.rightEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        hardware.sidewaysEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
-
-    public void reenableEncoders() {
-        hardware.leftEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        hardware.rightEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        hardware.sidewaysEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
 
     /// Sets the current position from an external sensor
     ///
@@ -287,14 +274,6 @@ public class Drivetrain {
             set_new_pos_at = 0;
 
             return;
-        }
-
-        // Reenable motors if they are disabled
-        DcMotor motors[] = new DcMotor[] {hardware.frontLeftMotor, hardware.frontRightMotor, hardware.backLeftMotor, hardware.backLeftMotor};
-        for (DcMotor motor : motors) {
-            if (motor.getMode() != DcMotor.RunMode.RUN_USING_ENCODER) {
-                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            }
         }
 
         last_robot_position = Util.to_pose2d(pedroOdometry.getPose());

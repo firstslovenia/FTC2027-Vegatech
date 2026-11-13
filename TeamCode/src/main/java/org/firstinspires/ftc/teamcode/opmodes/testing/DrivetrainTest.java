@@ -32,8 +32,6 @@ public class DrivetrainTest extends LinearOpMode {
 
 		waitForStart();
 
-        drivetrain.reenableEncoders();
-
 		while (opModeIsActive()) {
 
 			Vector2D translation_vector = new Vector2D(gamepad1.left_stick_x, -gamepad1.left_stick_y);
