@@ -9,6 +9,7 @@ import com.pedropathing.ftc.localization.Encoder;
 import com.pedropathing.ftc.localization.constants.PinpointConstants;
 import com.pedropathing.ftc.localization.constants.ThreeWheelConstants;
 import com.pedropathing.ftc.localization.constants.ThreeWheelIMUConstants;
+import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathConstraints;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -16,6 +17,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.generic.Util;
 
 public class Constants {
 	public static FollowerConstants followerConstants = new FollowerConstants()
@@ -64,4 +66,63 @@ public class Constants {
 			.threeWheelIMULocalizer(localizerConstants)
 			.build();
 	}
+
+    public static Pose LOWER_TARGET_LEFT_RED = new Pose(50, 54);
+    public static Pose LOWER_TARGET_CENTER_RED = new Pose(57.75, 54);
+    public static Pose LOWER_TARGET_RIGHT_RED = new Pose(65.5, 54);
+
+    public static Pose UPPER_TARGET_LEFT_RED = Util.mirror_y(LOWER_TARGET_LEFT_RED);
+    public static Pose UPPER_TARGET_CENTER_RED = Util.mirror_y(LOWER_TARGET_CENTER_RED);
+    public static Pose UPPER_TARGET_RIGHT_RED = Util.mirror_y(LOWER_TARGET_RIGHT_RED);
+
+    public static Pose LOWER_TARGET_LEFT_BLUE = Util.mirror_x(LOWER_TARGET_LEFT_RED);
+    public static Pose LOWER_TARGET_CENTER_BLUE = Util.mirror_x(LOWER_TARGET_CENTER_RED);
+    public static Pose LOWER_TARGET_RIGHT_BLUE = Util.mirror_x(LOWER_TARGET_RIGHT_RED);
+    public static Pose UPPER_TARGET_LEFT_BLUE = Util.mirror_y(LOWER_TARGET_LEFT_BLUE);
+    public static Pose UPPER_TARGET_CENTER_BLUE = Util.mirror_y(LOWER_TARGET_CENTER_BLUE);
+    public static Pose UPPER_TARGET_RIGHT_BLUE = Util.mirror_y(LOWER_TARGET_RIGHT_BLUE);
+
+    public static Pose get_target_for_pos(Pose robot) {
+        if (robot.getX() >= Util.CORNER_POSE.getX()/2.0) {
+            // Blue
+            if (robot.getY() >= Util.CORNER_POSE.getY()/2.0) {
+                // Upper
+                if (robot.getX() >= UPPER_TARGET_CENTER_BLUE.getX()) {
+                    // On the right, point left
+                    return UPPER_TARGET_LEFT_BLUE;
+                } else {
+                    // On the left, point right
+                    return UPPER_TARGET_RIGHT_BLUE;
+                }
+            } else {
+                // Lower
+                if (robot.getX() >= LOWER_TARGET_CENTER_BLUE.getX()) {
+                    return LOWER_TARGET_LEFT_BLUE;
+                } else {
+                    return LOWER_TARGET_RIGHT_BLUE;
+                }
+            }
+        } else {
+            // red
+            if (robot.getY() >= Util.CORNER_POSE.getY()/2.0) {
+                // Upper
+                if (robot.getX() >= UPPER_TARGET_CENTER_RED.getX()) {
+                    // On the right, point left
+                    return UPPER_TARGET_LEFT_RED;
+                } else {
+                    // On the left, point right
+                    return UPPER_TARGET_RIGHT_RED;
+                }
+            } else {
+                // Lower
+                if (robot.getX() >= LOWER_TARGET_CENTER_RED.getX()) {
+                    // On the right, point left
+                    return LOWER_TARGET_LEFT_RED;
+                } else {
+                    // On the left, point right
+                    return LOWER_TARGET_RIGHT_RED;
+                }
+            }
+        }
+    }
 }

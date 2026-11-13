@@ -9,16 +9,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 public class Util {
 
     /// The pose that has the absolute max x and y coordinates
-    static Pose corner = new Pose(144, 144);
+    public static Pose CORNER_POSE = new Pose(144, 144);
 
     /// Mirrors a pos across the horizontal center of the field
     public static Pose mirror_x(Pose tgt) {
-        return new Pose(corner.getX() - tgt.getX(), tgt.getY(), Math.PI - tgt.getHeading());
+        return new Pose(CORNER_POSE.getX() - tgt.getX(), tgt.getY(), Math.PI - tgt.getHeading());
     }
 
     /// Mirrors a pos across the vertical center of the field
     public static Pose mirror_y(Pose tgt) {
-        return new Pose(tgt.getX(), corner.getY() - tgt.getY(),  -tgt.getHeading());
+        return new Pose(tgt.getX(), CORNER_POSE.getY() - tgt.getY(),  -tgt.getHeading());
     }
 
     /// Converts a pedro pathing pose to a pose2d

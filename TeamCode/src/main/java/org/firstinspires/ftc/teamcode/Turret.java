@@ -26,7 +26,7 @@ public class Turret {
     /// 3:1, 4:1, 1:5
     //public static int TICKS_PER_REVOLUTION = (int) (28.0 * 3.0 * 4.0 * 5.0);
     public static int TICKS_PER_REVOLUTION = 1175;
-    public static double TOLERANCE_RADS = 7.5 * Math.PI / 180.0;
+    public static double TOLERANCE_RADS = 5.0 * Math.PI / 180.0;
     public static int TOLERANCE_TICKS = (int) Math.ceil(TOLERANCE_RADS/(Math.PI * 2.0) * TICKS_PER_REVOLUTION);
 
     public static int PID_TOLERANCE = TOLERANCE_TICKS;
@@ -38,7 +38,7 @@ public class Turret {
 
     /// Pid coefficient when we are normally operating the turret
     public static double NORMAL_PID_COEFFICIENT = 6.0;
-    public static double MOTOR_POWER = 0.8;
+    public static double MOTOR_POWER = 0.9;
 
     /// What time in millis the motor arrived at the correct position
     public Long stopped_being_busy_ms = null;
@@ -88,7 +88,7 @@ public class Turret {
 
             // Our heading is +90, where as our actual field rotation is 0
             //double current_angle = current_pos.getHeading(AngleUnit.RADIANS) - Math.PI / 2.0;
-            double current_angle = drivetrain.wanted_heading - Math.PI / 2.0 - drivetrain.local_heading_offset;
+            double current_angle = drivetrain.wanted_heading - drivetrain.local_heading_offset + Math.PI;
 
             double local_angle_rads = absolute_angle_rads - current_angle;
             move_to_angle(local_angle_rads);
