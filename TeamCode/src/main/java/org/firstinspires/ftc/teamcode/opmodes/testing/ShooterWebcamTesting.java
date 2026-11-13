@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.TargetInformation;
 import org.firstinspires.ftc.teamcode.Webcam;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-@TeleOp(name = "Shooter Webcam Testing")
+@TeleOp(name = "Shooter Webcam Testing", group = "Testing")
 public class ShooterWebcamTesting extends LinearOpMode {
 
 	Hardware hardware;

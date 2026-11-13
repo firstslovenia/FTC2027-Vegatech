@@ -204,9 +204,10 @@ public class ShooterPlusPlus {
     /// Updates the shooter's parameters (RPM, angle) for shooting at a specific distance
     public void update_for_distance(double distance_m) {
 
-        wanted_flywheel_rpm = distance_cm_to_wanted_rpm(distance_m * 100.0);
-        flywheel_gain = calculate_power_for_rpm(wanted_flywheel_rpm, callingOpMode.hardwareMap.voltageSensor.iterator().next().getVoltage());
+        /*wanted_flywheel_rpm = distance_cm_to_wanted_rpm(distance_m * 100.0);
+        flywheel_gain = calculate_power_for_rpm(wanted_flywheel_rpm, callingOpMode.hardwareMap.voltageSensor.iterator().next().getVoltage());*/
 
+        flywheel_gain = 10.0;
         shooting_distance_m = distance_m;
     }
 

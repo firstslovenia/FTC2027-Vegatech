@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.opmodes.production.autonomous.GenericJustMoveAuto;
 
-@Autonomous(name = "Testing Auto", group = "Examples")
+@Autonomous(name = "Testing Auto", group = "Testing")
 public class TestingMoveAuto extends GenericJustMoveAuto {
     public TestingMoveAuto() {
         this.startPose = new Pose(0.0, 0.0, Math.PI / 2.0);

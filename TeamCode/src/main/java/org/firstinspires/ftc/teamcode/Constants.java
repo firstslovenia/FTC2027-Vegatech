@@ -1,22 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.pedropathing.control.FilteredPIDFCoefficients;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
 import com.pedropathing.ftc.drivetrains.MecanumConstants;
 import com.pedropathing.ftc.localization.Encoder;
-import com.pedropathing.ftc.localization.constants.PinpointConstants;
-import com.pedropathing.ftc.localization.constants.ThreeWheelConstants;
 import com.pedropathing.ftc.localization.constants.ThreeWheelIMUConstants;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathConstraints;
-import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.generic.Team;
 import org.firstinspires.ftc.teamcode.generic.Util;
 
 public class Constants {
@@ -67,6 +63,12 @@ public class Constants {
 			.build();
 	}
 
+    public static Pose RED_AUTO_FAR_START = new Pose(38.7, 8.9, Math.PI / 2.0);
+    public static Pose RED_AUTO_FAR_END = new Pose(8.9, 94.5, 0);
+
+    public static Pose RED_AUTO_NEAR_START = new Pose(30.7, 132.5, -Math.PI / 2.0);
+    public static Pose RED_AUTO_NEAR_END = new Pose(8.9, 118.5, 0);
+
     public static Pose LOWER_TARGET_LEFT_RED = new Pose(50, 54);
     public static Pose LOWER_TARGET_CENTER_RED = new Pose(57.75, 54);
     public static Pose LOWER_TARGET_RIGHT_RED = new Pose(65.5, 54);
@@ -82,9 +84,8 @@ public class Constants {
     public static Pose UPPER_TARGET_CENTER_BLUE = Util.mirror_y(LOWER_TARGET_CENTER_BLUE);
     public static Pose UPPER_TARGET_RIGHT_BLUE = Util.mirror_y(LOWER_TARGET_RIGHT_BLUE);
 
-    public static Pose get_target_for_pos(Pose robot) {
-        if (robot.getX() >= Util.CORNER_POSE.getX()/2.0) {
-            // Blue
+    public static Pose get_target_for_pos(Pose robot, Team team) {
+        if (team == Team.Blue) {
             if (robot.getY() >= Util.CORNER_POSE.getY()/2.0) {
                 // Upper
                 if (robot.getX() >= UPPER_TARGET_CENTER_BLUE.getX()) {
@@ -103,7 +104,6 @@ public class Constants {
                 }
             }
         } else {
-            // red
             if (robot.getY() >= Util.CORNER_POSE.getY()/2.0) {
                 // Upper
                 if (robot.getX() >= UPPER_TARGET_CENTER_RED.getX()) {
