@@ -102,13 +102,13 @@ public class Main extends LinearOpMode {
 
             // Enable / disable intake
             if (Math.abs(gamepad1.left_trigger) > 0.2) {
-                hardware.intakeMotor.setPower(0.6);
+                hardware.intakeMotor.setPower(0.5);
             } else {
                 hardware.intakeMotor.setPower(0.0);
             }
 
             if (gamepad1.b) {
-                hardware.intakeMotor.setPower(-0.6);
+                hardware.intakeMotor.setPower(-0.5);
             }
 
             telemetry.addData("Intake power", hardware.intakeMotor.getPower());
@@ -125,7 +125,7 @@ public class Main extends LinearOpMode {
             // Shoot when holding RT
             if (Math.abs(gamepad1.right_trigger) > 0.2) {
                 hardware.transferMotor.setPower(1.0);
-                hardware.intakeMotor.setPower(1.0);
+                hardware.intakeMotor.setPower(0.75);
             }
 
             // Enable / disable the shooter
